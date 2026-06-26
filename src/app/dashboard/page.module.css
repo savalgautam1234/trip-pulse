@@ -1,0 +1,86 @@
+.root { padding: 2rem; max-width: 1100px; }
+
+.header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.5rem; }
+.title { font-size: 22px; font-weight: 500; letter-spacing: -0.02em; font-family: Georgia, serif; }
+.sub { font-size: 13px; color: var(--text2); margin-top: 2px; }
+
+.addBtn {
+  padding: 8px 16px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.addBtn:hover { background: #A84A2C; }
+
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+.stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.875rem 1rem; }
+.statNum { font-size: 24px; font-weight: 500; line-height: 1; margin-bottom: 4px; }
+.statLabel { font-size: 12px; color: var(--text2); }
+
+.loading, .empty { padding: 3rem; text-align: center; color: var(--text2); font-size: 14px; }
+
+.tripGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+
+.tripCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  cursor: pointer;
+}
+.tripCard:hover { border-color: var(--accent); }
+
+.tripTop { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.tripDest { font-size: 15px; font-weight: 500; }
+.tripCouple { font-size: 12px; color: var(--text2); margin-top: 2px; }
+
+.statusBadge { font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+.on_track { background: var(--teal-light); color: #0F6E56; }
+.needs_attention { background: var(--amber-light); color: #633806; }
+.issue_flagged { background: var(--red-light); color: #791F1F; }
+
+.tripMeta { display: flex; gap: 12px; font-size: 12px; color: var(--text2); }
+.tripFooter { display: flex; justify-content: space-between; font-size: 11px; color: var(--text3); padding-top: 6px; border-top: 1px solid var(--border); }
+
+/* Modal */
+.modalOverlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200;
+  padding: 2rem;
+}
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  width: 100%; max-width: 520px;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+.modalHeader { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); }
+.modalHeader h2 { font-size: 16px; font-weight: 500; }
+.closeBtn { background: none; border: none; font-size: 16px; color: var(--text2); cursor: pointer; padding: 2px 6px; }
+.modalForm { padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+
+.field label { display: block; font-size: 12px; color: var(--text2); margin-bottom: 3px; font-weight: 500; }
+.field input {
+  width: 100%; padding: 8px 10px;
+  background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius);
+  font-size: 13px; color: var(--text); outline: none;
+}
+.field input:focus { border-color: var(--accent); background: var(--surface); }
+
+.modalActions { display: flex; gap: 8px; padding-top: 0.5rem; }
+.cancelBtn { flex: 1; padding: 9px; background: none; border: 1px solid var(--border); border-radius: var(--radius); font-size: 13px; cursor: pointer; color: var(--text2); }
+.cancelBtn:hover { background: var(--surface2); }
+.submitBtn { flex: 2; padding: 9px; background: var(--accent); color: white; border: none; border-radius: var(--radius); font-size: 13px; font-weight: 500; cursor: pointer; }
+.submitBtn:disabled { background: var(--text3); cursor: not-allowed; }
