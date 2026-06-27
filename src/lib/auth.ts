@@ -10,10 +10,6 @@ export const authOptions: NextAuthOptions = {
   session: { strategy: 'jwt' },
   pages: { signIn: '/login' },
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID ?? '',
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
-    }),
     CredentialsProvider({
       name: 'credentials',
       credentials: {
@@ -21,12 +17,17 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null
-        const user = await prisma.user.findUnique({ where: { email: credentials.email } })
-        if (!user || !user.password) return null
-        const valid = await bcrypt.compare(credentials.password, user.password)
-        if (!valid) return null
-        return user
+        try {
+          if (!credentials?.email || !credentials?.password) return null
+          const user = await prisma.user.findUnique({ where: { email: credentials.email } })
+          if (!user || !user.password) return null
+          const valid = await bcrypt.compare(credentials.password, user.password)
+          if (!valid) return null
+          return user
+        } catch (e) {
+          console.error('Auth error:', e)
+          return null
+        }
       },
     }),
   ],
