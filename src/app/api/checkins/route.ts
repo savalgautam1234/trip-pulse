@@ -6,11 +6,15 @@ import prisma from '@/lib/prisma'
 export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions)
   if (!session?.user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+  const userId = (session.user as any).id
+  const role = (session.user as any).role
+
   try {
-    const userId = (session.user as any).id
-    const role = (session.user as any).role
     const checkIns = await prisma.checkIn.findMany({
-      where: role === 'ADMIN' ? {} : { trip: { tripManagerId: userId } },
+      where: role === 'ADMIN' ? {} : {
+        trip: { tripManagerId: userId }
+      },
       include: {
         trip: { select: { id: true, destination: true, coupleNames: true, hotel: true, status: true } },
         author: { select: { name: true, email: true } },
@@ -20,7 +24,9 @@ export async function GET(req: NextRequest) {
       take: 200,
     })
     return NextResponse.json(checkIns)
-  } catch (e) {
+  } catch (e: any) {
+    console.error('Checkins GET error:', e)
+    // Return empty array if DB fails
     return NextResponse.json([])
   }
 }

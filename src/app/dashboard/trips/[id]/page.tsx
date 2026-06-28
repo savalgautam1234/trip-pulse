@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { TripWithRelations, Language } from '@/types'
-import { formatDate, dayOfTrip, statusLabel, priorityColor } from '@/lib/utils'
+import { formatDate, statusLabel, priorityColor, tripDayStatus } from '@/lib/utils'
 import styles from './page.module.css'
 
 const MOODS = [
@@ -82,15 +82,15 @@ export default function TripDetailPage() {
   if (loading) return <div className={styles.loading}>Loading trip...</div>
   if (!trip) return <div className={styles.loading}>Trip not found</div>
 
-  const dayNum = dayOfTrip(trip.startDate)
-  const totalDays = Math.ceil((new Date(trip.endDate).getTime() - new Date(trip.startDate).getTime()) / 86400000)
+  const { label: dayLabel, day: dayNum, total: totalDays } = tripDayStatus(trip.startDate, trip.endDate)
+  
 
   return (
     <div className={styles.root}>
       <div className={styles.topRow}>
         <div>
           <h1 className={styles.title}>{trip.destination}</h1>
-          <div className={styles.sub}>{trip.coupleNames} · Day {dayNum} of {totalDays}</div>
+          <div className={styles.sub}>{trip.coupleNames} · {dayLabel}</div>
         </div>
         <span className={`${styles.badge} ${styles[trip.status.toLowerCase().replace('_','')]}`}>{statusLabel(trip.status)}</span>
       </div>

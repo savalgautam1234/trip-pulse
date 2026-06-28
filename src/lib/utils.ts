@@ -5,6 +5,24 @@ export function formatDate(dateStr: string) {
   return format(new Date(dateStr), 'MMM d')
 }
 
+export function tripDayStatus(startDate: string, endDate: string): { label: string; day: number; total: number } {
+  const start = new Date(startDate)
+  const end = new Date(endDate)
+  const today = new Date()
+  const total = Math.max(1, Math.ceil((end.getTime() - start.getTime()) / 86400000))
+
+  if (today < start) {
+    const daysUntil = Math.ceil((start.getTime() - today.getTime()) / 86400000)
+    return { day: 0, total, label: `Starts in ${daysUntil}d` }
+  }
+  if (today > end) {
+    return { day: total, total, label: 'Completed' }
+  }
+  const day = Math.max(1, Math.ceil((today.getTime() - start.getTime()) / 86400000))
+  return { day, total, label: `Day ${day} of ${total}` }
+}
+
+// Keep for backward compat
 export function dayOfTrip(startDate: string) {
   const start = new Date(startDate)
   const today = new Date()

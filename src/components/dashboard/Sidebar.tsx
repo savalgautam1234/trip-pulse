@@ -12,6 +12,7 @@ const NAV = [
   { href: '/dashboard', label: 'My Trips', icon: '✈', exact: true },
   { href: '/dashboard/reservations', label: 'Reservations AI', icon: '🗓', exact: false },
   { href: '/dashboard/customisation', label: 'Customisation AI', icon: '✏', exact: false },
+  { href: '/dashboard/checkins', label: 'Check-ins', icon: '✦', exact: false },
 ]
 
 const ADMIN_NAV = [
