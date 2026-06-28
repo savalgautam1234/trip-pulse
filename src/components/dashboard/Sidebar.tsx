@@ -9,19 +9,23 @@ interface Props {
 }
 
 const NAV = [
-  { href: '/dashboard', label: 'My Trips', icon: '✈' },
-  { href: '/dashboard/reservations', label: 'Reservations AI', icon: '🗓' },
-  { href: '/dashboard/customisation', label: 'Customisation AI', icon: '✏' },
-  { href: '/dashboard', label: 'Trip Check-ins', icon: '✦' },
+  { href: '/dashboard', label: 'My Trips', icon: '✈', exact: true },
+  { href: '/dashboard/reservations', label: 'Reservations AI', icon: '🗓', exact: false },
+  { href: '/dashboard/customisation', label: 'Customisation AI', icon: '✏', exact: false },
 ]
 
 const ADMIN_NAV = [
-  { href: '/admin', label: 'Admin Dashboard', icon: '◈' },
+  { href: '/admin', label: 'Admin Dashboard', icon: '◈', exact: false },
 ]
 
 export function Sidebar({ user }: Props) {
   const pathname = usePathname()
   const initials = (user.name ?? user.email ?? 'TM').slice(0, 2).toUpperCase()
+
+  const isActive = (href: string, exact: boolean) => {
+    if (exact) return pathname === href
+    return pathname.startsWith(href)
+  }
 
   return (
     <aside className={styles.sidebar}>
@@ -30,7 +34,7 @@ export function Sidebar({ user }: Props) {
 
       <nav className={styles.nav}>
         {NAV.map(n => (
-          <Link key={n.href} href={n.href} className={`${styles.navItem} ${pathname === n.href ? styles.active : ''}`}>
+          <Link key={n.href} href={n.href} className={`${styles.navItem} ${isActive(n.href, n.exact) ? styles.active : ''}`}>
             <span className={styles.icon}>{n.icon}</span>
             {n.label}
           </Link>
