@@ -10,7 +10,9 @@ interface Props {
 
 const NAV = [
   { href: '/dashboard', label: 'My Trips', icon: '✈' },
-  { href: '/dashboard/checkins', label: 'Check-ins', icon: '✦' },
+  { href: '/dashboard/reservations', label: 'Reservations AI', icon: '🗓' },
+  { href: '/dashboard/customisation', label: 'Customisation AI', icon: '✏' },
+  { href: '/dashboard/checkins', label: 'Trip Check-ins', icon: '✦' },
 ]
 
 const ADMIN_NAV = [

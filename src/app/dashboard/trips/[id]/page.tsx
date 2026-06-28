@@ -49,7 +49,20 @@ export default function TripDetailPage() {
     const res = await fetch('/api/checkin', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tripId: trip.id, moodSignal: mood, todayEvent: event, issuesFlagged: issues || undefined, language }),
+      body: JSON.stringify({ 
+        tripId: trip.id, 
+        moodSignal: mood, 
+        todayEvent: event, 
+        issuesFlagged: issues || undefined, 
+        language,
+        tripData: {
+          coupleNames: trip.coupleNames,
+          destination: trip.destination,
+          hotel: trip.hotel,
+          startDate: trip.startDate,
+          endDate: trip.endDate,
+        }
+      }),
     })
     const data = await res.json()
     setResult({ message: data.message, actions: data.actions })
