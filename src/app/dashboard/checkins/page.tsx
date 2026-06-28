@@ -22,6 +22,14 @@ export default function CheckInsPage() {
 
   const sentCount = checkIns.filter(c => c.sentViaWA).length
 
+  const cardStyle = (ci: any): React.CSSProperties => ({
+    background: selected?.id === ci.id ? 'var(--accent-light)' : 'var(--surface)',
+    border: `1px solid ${selected?.id === ci.id ? 'var(--accent)' : 'var(--border)'}`,
+    borderRadius: 'var(--radius)',
+    padding: '0.875rem 1rem',
+    cursor: 'pointer',
+  })
+
   return (
     <div style={{padding:'2rem',maxWidth:'1200px'}}>
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:'1.5rem'}}>
@@ -45,7 +53,7 @@ export default function CheckInsPage() {
         <div style={{display:'flex',gap:'6px'}}>
           {['all','sent','draft'].map(f => (
             <button key={f} onClick={()=>setFilter(f)} style={{padding:'7px 14px',background:filter===f?'var(--accent)':'var(--surface)',border:'1px solid',borderColor:filter===f?'var(--accent)':'var(--border)',borderRadius:'20px',fontSize:'12px',color:filter===f?'white':'var(--text2)',cursor:'pointer',fontFamily:'inherit'}}>
-              {f==='all'?`All (${checkIns.length})`:f==='sent'?`✓ Sent (${sentCount})`:`Draft (${checkIns.length-sentCount})`}
+              {f==='all'?`All (${checkIns.length})`:f==='sent'?`Sent (${sentCount})`:`Draft (${checkIns.length-sentCount})`}
             </button>
           ))}
         </div>
@@ -56,13 +64,13 @@ export default function CheckInsPage() {
           {loading && <div style={{padding:'2rem',textAlign:'center',color:'var(--text2)'}}>Loading...</div>}
           {!loading && filtered.length === 0 && <div style={{padding:'2rem',textAlign:'center',color:'var(--text2)'}}>No check-ins found</div>}
           {filtered.map(ci => (
-            <div key={ci.id} onClick={()=>setSelected(ci)} style={{background:'var(--surface)',border:`1px solid ${selected?.id===ci.id?'var(--accent)':'var(--border)'}`,borderRadius:'var(--radius)',padding:'0.875rem 1rem',cursor:'pointer',background:selected?.id===ci.id?'var(--accent-light)':'var(--surface)'}}>
+            <div key={ci.id} onClick={()=>setSelected(ci)} style={cardStyle(ci)}>
               <div style={{display:'flex',justifyContent:'space-between',marginBottom:'6px'}}>
                 <div>
                   <div style={{fontSize:'13px',fontWeight:500}}>{ci.trip?.coupleNames}</div>
                   <div style={{fontSize:'11px',color:'var(--text3)',marginTop:'2px'}}>{ci.trip?.destination}</div>
                 </div>
-                <span style={{fontSize:'10px',fontWeight:600,padding:'2px 8px',borderRadius:'20px',background:ci.sentViaWA?'var(--teal-light)':'var(--surface2)',color:ci.sentViaWA?'var(--teal)':'var(--text3)',height:'fit-content'}}>{ci.sentViaWA?'✓ Sent':'Draft'}</span>
+                <span style={{fontSize:'10px',fontWeight:600,padding:'2px 8px',borderRadius:'20px',background:ci.sentViaWA?'var(--teal-light)':'var(--surface2)',color:ci.sentViaWA?'var(--teal)':'var(--text3)'}}>{ci.sentViaWA?'✓ Sent':'Draft'}</span>
               </div>
               <div style={{fontSize:'12px',color:'var(--text2)',lineHeight:1.5,marginBottom:'6px'}}>{ci.message?.slice(0,90)}...</div>
               <div style={{display:'flex',justifyContent:'space-between',fontSize:'11px',color:'var(--text3)'}}>
@@ -88,7 +96,7 @@ export default function CheckInsPage() {
 
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'10px'}}>
                 {[['Mood',selected.moodSignal],['Event',selected.todayEvent],['Language',selected.language],['Status',selected.sentViaWA?'✓ Sent':'Draft'],['By',selected.author?.name||selected.author?.email],['Date',new Date(selected.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})]].map(([l,v])=>(
-                  <div key={l} style={{background:'var(--surface2)',borderRadius:'var(--radius)',padding:'0.625rem 0.875rem'}}>
+                  <div key={String(l)} style={{background:'var(--surface2)',borderRadius:'var(--radius)',padding:'0.625rem 0.875rem'}}>
                     <div style={{fontSize:'10px',color:'var(--text3)',textTransform:'uppercase',letterSpacing:'0.05em',marginBottom:'3px'}}>{l}</div>
                     <div style={{fontSize:'13px',fontWeight:500}}>{v}</div>
                   </div>
